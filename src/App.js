@@ -34,12 +34,16 @@ const App = () => {
       }, 1500);
     }
 
+    getAllData()
+  });
+
+  const getAllData = () =>{
     fetch("http://localhost:5000/trucks").then((result) => {
       result.json().then((resp) => {
         setRealData(resp);
       });
     });
-  }, []);
+  }
 
   // console.log("Real Data:", realData);
 

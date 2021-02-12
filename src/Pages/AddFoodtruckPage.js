@@ -7,7 +7,7 @@ const AddFoodtruckPage = () => {
   const [name, setName] = useState("");
   const [hours, setHours] = useState("");
   const [address, setAddress] = useState("");
-  const [price, setPrice] = useState("");
+  const [place, setPlace] = useState("");
   const [image, setImage] = useState("");
 
   let history = useHistory()
@@ -29,8 +29,8 @@ const AddFoodtruckPage = () => {
         setAddress(value);
         break;
 
-      case "price":
-        setPrice(value);
+      case "place":
+        setPlace(value);
         break;
 
       case "image":
@@ -50,7 +50,7 @@ const AddFoodtruckPage = () => {
       Name: name,
       Hours: hours,
       AddressLink: address,
-      Price: price,
+      Place: place,
       ImgSrc: image,
     };
     fetch("http://localhost:5000/trucks", {
@@ -70,9 +70,9 @@ const AddFoodtruckPage = () => {
       <div className="form__wrapper">
       <Form>
         <Form.Field>
-          <label>Food Name</label>
+          <label>Food Name (or) Cafe Name</label>
           <input
-            placeholder="Food Name"
+            placeholder="Food Name (or) Cafe Name"
             id="foodName"
             onChange={(e) => handleChange(e)}
           />
@@ -94,10 +94,10 @@ const AddFoodtruckPage = () => {
           />
         </Form.Field>
         <Form.Field>
-          <label>Price</label>
+          <label>Place</label>
           <input
-            placeholder="Price"
-            id="price"
+            placeholder="Place"
+            id="place"
             onChange={(e) => handleChange(e)}
           />
         </Form.Field>

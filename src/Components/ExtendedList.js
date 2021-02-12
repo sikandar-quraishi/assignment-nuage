@@ -2,20 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Menu from "@material-ui/core/Menu";
@@ -30,12 +25,7 @@ import Button from "@material-ui/core/Button";
 
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import { Card } from "reactstrap";
-import FoodtruckImg from "../assets/food-truck.png";
-import directionsImg from "../assets/directions.png";
-import menuImg from "../assets/menu.png";
-// import { Link } from 'react-router-dom'
 import { Form } from "semantic-ui-react";
-import { NearMe } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +52,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ExtendedList = (props) => {
-  // console.log("Map Data:", props);
-  // console.log("Map Data Adress:", props.data.AddressLink);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
@@ -72,7 +60,7 @@ const ExtendedList = (props) => {
   const [name, setName] = useState("");
   const [hours, setHours] = useState("");
   const [address, setAddress] = useState("");
-  const [price, setPrice] = useState("");
+  const [place, setPlace] = useState("");
   const [image, setImage] = useState("");
 
   let history = useHistory();
@@ -94,8 +82,8 @@ const ExtendedList = (props) => {
         setAddress(value);
         break;
 
-      case "price":
-        setPrice(value);
+      case "place":
+        setPlace(value);
         break;
 
       case "image":
@@ -123,7 +111,7 @@ const ExtendedList = (props) => {
         setName(res.Name);
         setHours(res.Hours);
         setAddress(res.AddressLink);
-        setPrice(res.Price);
+        setPlace(res.Place);
         setImage(res.ImgSrc);
         console.log("edit data:", res, res.Name);
       });
@@ -139,7 +127,7 @@ const ExtendedList = (props) => {
       Name: name,
       Hours: hours,
       AddressLink: address,
-      Price: price,
+      Place: place,
       ImgSrc: image,
     };
     fetch(`http://localhost:5000/trucks/${id}`, {
@@ -151,6 +139,10 @@ const ExtendedList = (props) => {
     }).then((res) => {
       console.log("Edit Data:", res);
       history.push("/");
+      getData();
+      setOpen(false);
+
+
     });
     console.log("data:", data);
   };
@@ -210,11 +202,11 @@ const ExtendedList = (props) => {
             image={props.data.ImgSrc}
             title="Paella dish"
           />
-          {/* <CardContent>
+          <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              This impressive paella isguests.
+            {props.data.Place}
             </Typography>
-          </CardContent> */}
+          </CardContent>
           <CardActions disableSpacing>
             <IconButton
               href={props.data.AddressLink}
@@ -222,19 +214,7 @@ const ExtendedList = (props) => {
             >
               <LocationOnIcon />
             </IconButton>
-            {/* <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
-            {/* <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton> */}
+           
           </CardActions>
         </Card>
 
@@ -258,22 +238,19 @@ const ExtendedList = (props) => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Are want to edit this food info?"}
+            {"Are you want to edit this food info?"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
+              In this screen you can easily modify yoy item info very and quicly.
             </DialogContentText>
 
-            {/* <div className="form__container">
-      <div className="form__wrapper"> */}
             <Form>
               <Form.Field>
-                <label>Food Name</label>
+                <label>Food Name (or) Cafe Name</label>
                 <input
-                  placeholder="Food Name"
-                  id="foodName"
+            placeholder="Food Name (or) Cafe Name"
+            id="foodName"
                   onChange={(e) => handleChange(e)}
                   value={name}
                 />
@@ -297,12 +274,12 @@ const ExtendedList = (props) => {
                 />
               </Form.Field>
               <Form.Field>
-                <label>Price</label>
+                <label>Place</label>
                 <input
-                  placeholder="Price"
-                  id="price"
+                  placeholder="Place"
+                  id="place"
                   onChange={(e) => handleChange(e)}
-                  value={price}
+                  value={place}
                 />
               </Form.Field>
               <Form.Field>
@@ -322,9 +299,9 @@ const ExtendedList = (props) => {
     </div> */}
           </DialogContent>
           <DialogActions>
-            {/* <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button> */}
+            <Button onClick={handleCclose} color="primary">
+            Close
+          </Button>
             <Button onClick={(e) => handleUpdate(e)} color="primary" autoFocus>
               Submit
             </Button>
